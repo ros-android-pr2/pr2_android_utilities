@@ -1,0 +1,18 @@
+
+//noinspection GroovyAssignabilityCheck
+dependencies {
+    compile 'org.ros.android_core:android_gingerbread_mr1:[0.1,0.2)'
+    compile 'org.ros.rosjava_messages:pr2_msgs:[0,)'
+    compile 'org.ros.rosjava_messages:pr2_power_board:[0,)'
+    compile 'org.ros.rosjava_messages:std_srvs:1.10.12'
+    compile 'org.ros.rosjava_osrf:robot_app_components:[0.1,0.2)'
+}
+
+apply plugin: 'com.android.application'
+
+
+android {
+    compileSdkVersion 21
+}
+
+

@@ -1,39 +1,48 @@
 task wrapper(type: Wrapper) {
-  gradleVersion = '1.0-milestone-9'
+    gradleVersion = "2.2.1"
 }
 
+buildscript {
+    apply from: "https://github.com/rosjava/rosjava_bootstrap/raw/indigo/buildscript.gradle"
+    //noinspection GroovyAssignabilityCheck
+    dependencies {
+        classpath "com.android.tools.build:gradle:1.0.1"
+    }
+}
+
+apply plugin: "catkin"
+
 allprojects {
-  group 'ros.pr2_android_utilities'
-  version = '0.0.0-SNAPSHOT'
+    group 'org.ros.pr2_android_utilities'
+    version = project.catkin.pkg.version
 }
 
 subprojects {
-  repositories {
-    mavenLocal()
-    mavenCentral()
-  }
 
-  configurations.add('compile') {
-    exclude group: 'junit'
-    exclude group: 'xml-apis'
-  }
-
-  task deployLibs(type: Copy) {
-    from { configurations.compile }
-    into "${projectDir}/libs"
-  }
-
-  task clean << {
-    ant.delete file: "${projectDir}/local.properties"
-    ant.delete file: "${projectDir}/proguard-project.txt"
-    ant.delete file: "${projectDir}/build.xml"
-    ant.delete dir: "${projectDir}/bin"
-    ant.delete dir: "${projectDir}/gen"
-    ant.delete dir: "${projectDir}/libs"
-  }
-
-  task debug(type: Exec) {
-    dependsOn deployLibs
-    commandLine 'ant', 'debug'
-  }
+    apply plugin: "ros-android"
+    afterEvaluate { project ->
+        android {
+            sourceSets {
+                //noinspection GroovyAssignabilityCheck
+                main {
+                    manifest.srcFile "AndroidManifest.xml"
+                    res.srcDirs "res"
+                    assets.srcDirs "assets"
+                    java.srcDirs "src"
+                }
+            }
+        
+        
+            packagingOptions {
+                /* https://github.com/rosjava/android_core/issues/194 */
+                exclude 'META-INF/LICENSE.txt'
+                exclude 'META-INF/NOTICE.txt'
+                exclude 'META-INF/gradle-plugins/catkin.properties'
+                exclude 'META-INF/gradle-plugins/ros.properties'
+                exclude 'META-INF/gradle-plugins/ros-android.properties'
+                exclude 'META-INF/gradle-plugins/ros-java.properties'
+            }
+        }
+    }
+    
 }
