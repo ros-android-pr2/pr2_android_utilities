@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package>
+    <name>pr2_android_utilities</name>
+    <version>0.1.0</version>
+  <description>
+    This is the stack of android applications for pr2
+  </description>
+    <maintainer email="sarah@osrfoundation.org">Sarah Elliott</maintainer>
+  <author>KazutoMurase</author>
+  <license>Apache 2.0</license>
+  <url>http://ros.org/wiki/pr2_android_utilities</url>
+</package>
+
